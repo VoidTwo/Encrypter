@@ -1,0 +1,196 @@
+[tool.poetry]
+name = 'Encrypter'
+version = '0.0.1-alpha'
+description = 'Secure offline password vault using modern cryptographically secure hashing and encryption algorithms'
+readme = 'README.md'
+authors = ['VoidTwo']
+
+[tool.poetry.dependencies]
+python = '3.10.*'
+cryptography = {git = 'https://github.com/pyca/cryptography.git', tag = '37.0.4'}
+orjson = {git = 'https://github.com/ijl/orjson.git', tag = '3.8.0'}
+
+[tool.poetry.dev-dependencies]
+bandit = {version = '*', extras = ['toml']}
+flake8 = '*'
+mypy = '*'
+pip = '*'
+setuptools = '*'
+
+[tool.mypy]
+mypy_path = '$MYPY_CONFIG_FILE_DIR'
+
+exclude = [
+    '.git',
+    '.idea',
+    '.mypy_cache',
+    '.venv',
+    '__pycache__'
+]
+
+files = [
+    '*.py'
+]
+
+python_version = '3.10'
+
+follow_imports = 'skip'
+follow_imports_for_stubs = false
+no_site_packages = true
+no_silence_site_packages = false
+
+disable_error_code = ['import']
+
+# Disallow dynamic typing
+disallow_any_unimported = false
+disallow_any_expr = false
+disallow_any_decorated = false
+disallow_any_explicit = false
+disallow_any_generics = false
+disallow_subclassing_any = false
+
+# Untyped definitions and calls
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = false
+
+# None and Optional handling
+no_implicit_optional = true
+strict_optional = true
+
+# Configuring warnings
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_return_any = true
+warn_unreachable = true
+
+# Suppressing errors
+show_none_errors = false
+ignore_errors = false
+
+# Miscellaneous strictness flags
+allow_untyped_globals = false
+allow_redefinition = false
+local_partial_types = true
+implicit_reexport = false
+strict_equality = false
+strict = false
+
+# Configuring error messages
+show_error_context = true
+show_column_numbers = true
+show_error_codes = true
+pretty = true
+color_output = true
+error_summary = true
+show_absolute_path = false
+
+# Incremental mode
+incremental = true
+sqlite_cache = false
+cache_fine_grained = false
+skip_version_check = false
+skip_cache_mtime_checks = false
+
+# Advanced options
+pdb = false
+show_traceback = true
+raise_exceptions = true
+warn_incomplete_stub = true
+
+# Miscellaneous
+scripts_are_modules = false
+warn_unused_configs = false
+verbosity = 0
+
+[tool.bandit]
+exclude_dirs = [
+    '.git',
+    '.idea',
+    '.mypy_cache',
+    '.venv',
+    '__pycache__'
+]
+
+targets = [
+    '*.py'
+]
+
+tests = [
+    'B101',
+    'B102',
+    'B103',
+    'B104',
+    'B105',
+    'B106',
+    'B107',
+    'B108',
+    'B110',
+    'B112',
+    # 'B113',  # Bandit v1.7.5
+    'B201',
+    # 'B202',  # Bandit v1.7.5
+    'B301',
+    'B302',
+    'B303',
+    'B304',
+    'B305',
+    'B306',
+    'B307',
+    'B308',
+    'B310',
+    'B311',
+    'B312',
+    'B313',
+    'B314',
+    'B315',
+    'B316',
+    'B317',
+    'B318',
+    'B319',
+    'B320',
+    'B321',
+    'B323',
+    'B324',
+    'B401',
+    'B402',
+    'B403',
+    'B404',
+    'B405',
+    'B406',
+    'B407',
+    'B408',
+    'B409',
+    'B410',
+    'B411',
+    'B412',
+    'B413',
+    'B415',
+    'B501',
+    'B502',
+    'B503',
+    'B504',
+    'B505',
+    'B506',
+    'B507',
+    'B508',
+    'B509',
+    'B601',
+    'B602',
+    'B603',
+    'B604',
+    'B605',
+    'B606',
+    'B607',
+    'B608',
+    'B609',
+    'B610',
+    'B611',
+    # 'B612',  # Bandit v1.7.5
+    'B701',
+    'B702',
+    'B703'
+]
