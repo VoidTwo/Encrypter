@@ -8,9 +8,6 @@ from typing import TYPE_CHECKING
 
 # Type checking
 if TYPE_CHECKING:
-    # Standard imports
-    from typing import Optional
-
     # Local imports
     from .custom_types import LiteralPlatform
 
@@ -30,13 +27,4 @@ def get_platform() -> LiteralPlatform:
 
 
 class Platform:
-    __platform: Optional[LiteralPlatform] = None
-
-    def __init__(self) -> None:
-        return
-
-    @property
-    def platform(self) -> LiteralPlatform:
-        if self.__platform is None:
-            self.__platform = get_platform()
-        return self.__platform
+    platform: LiteralPlatform = get_platform()
