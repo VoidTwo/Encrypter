@@ -2,13 +2,16 @@
 name = 'Encrypter'
 version = '0.0.1-alpha'
 description = 'Secure offline password vault using modern cryptographically secure hashing and encryption algorithms'
+license = 'AGPL-3.0-only'
 readme = 'README.md'
 authors = ['VoidTwo']
+repository = 'https://github.com/VoidTwo/Encrypter'
+packages = [{include = 'encrypter'}]
 
 [tool.poetry.dependencies]
 python = '3.10.*'
-cryptography = {git = 'https://github.com/pyca/cryptography.git', tag = '37.0.4'}
-orjson = {git = 'https://github.com/ijl/orjson.git', tag = '3.8.0'}
+cryptography = '37.*'  # https://github.com/pyca/cryptography
+orjson = '3.*'  # https://github.com/ijl/orjson
 
 [tool.poetry.dev-dependencies]
 bandit = {version = '*', extras = ['toml']}
@@ -29,7 +32,7 @@ exclude = [
 ]
 
 files = [
-    '*.py'
+    'encrypter/*.py'
 ]
 
 python_version = '3.10'
@@ -116,7 +119,7 @@ exclude_dirs = [
 ]
 
 targets = [
-    '*.py'
+    'encrypter/*.py'
 ]
 
 tests = [
