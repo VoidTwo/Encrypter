@@ -54,9 +54,13 @@ def get_secure_open_properties() -> tuple[int, bool]:
         pass
 
     if Platform.platform == 'W':
-        from os import O_BINARY
-        flags |= O_BINARY
+        from os import (
+            O_BINARY,
+            O_NOINHERIT)
+
+        flags |= O_BINARY | O_NOINHERIT
         del O_BINARY
+        del O_NOINHERIT
     return flags, no_follow
 
 
