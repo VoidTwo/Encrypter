@@ -21,11 +21,11 @@ if TYPE_CHECKING:
 
 
 class CharacterSets:
-    alpha: tuple[str, ...] = tuple(map(chr, itertools_chain(
+    alpha: str = ''.join(map(chr, itertools_chain(
         range(65, 91), range(97, 123))))
-    alpha_numeric: tuple[str, ...] = tuple(map(chr, itertools_chain(
+    alpha_numeric: str = ''.join(map(chr, itertools_chain(
         range(48, 58), range(65, 91), range(97, 123))))
-    alpha_numeric_symbols: tuple[str, ...] = tuple(map(chr, range(33, 127)))
+    alpha_numeric_symbols: str = ''.join(map(chr, range(33, 127)))
 
 
 def secure_random_string(length: int, *, character_set: Sequence[str] = CharacterSets.alpha_numeric_symbols) -> str:
