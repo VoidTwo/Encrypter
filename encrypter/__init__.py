@@ -2,6 +2,10 @@
 
 # Local imports
 from .common_utils import Platform
+from .cryptography_utils import (
+    CharacterSets,
+    secure_encrypt,
+    secure_random_string)
 from .custom_types import LiteralPlatform
 from .file_operations import SecureOpen
 
@@ -12,9 +16,12 @@ __description__ = 'Secure offline password vault using modern cryptographically 
                   'algorithms'
 __author__ = 'VoidTwo'
 __license__ = 'AGPL-3.0-only'
-__version__ = '0.0.1-alpha'
+__version__ = '0.0.2-alpha'
 
 __all__ = (
+    'CharacterSets',
     'LiteralPlatform',
     'Platform',
+    'secure_encrypt',
+    'secure_random_string',
     'SecureOpen')
