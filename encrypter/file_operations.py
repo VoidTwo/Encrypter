@@ -9,7 +9,9 @@ from os import (
     fdopen as os_fdopen,
     fstat as os_fstat,
     lstat as os_lstat,
-    open as os_open)
+    open as os_open,
+    replace as os_replace)
+from tempfile import mkstemp as tempfile_mkstemp
 from typing import TYPE_CHECKING
 
 # Local imports
@@ -72,6 +74,24 @@ def symlink_testing(fd: int, filename: str, *, iterations: int = 10) -> bool:
     return False
 
 
+def close_file_descriptor(fd: int) -> None:
+    try:
+        os_close(fd)
+    except OSError:
+        pass
+    return
+
+
+def secure_file_create(filename: str) -> None:
+    fd: int
+    path: str
+    fd, path = tempfile_mkstemp(suffix='.tmp', prefix='.__', dir='.')
+
+    close_file_descriptor(fd)
+    os_replace(path, filename)
+    return
+
+
 class SecureOpen:
     __slots__ = (
         '__filename', '__file_descriptor', '__file',
@@ -92,7 +112,18 @@ class SecureOpen:
             self.close()
             raise AssertionError('File is already open.')
 
-        self.__file_descriptor = os_open(self.__filename, flags=self.__flags, mode=0o444)
+        k: int
+
+        for k in range(2):
+            try:
+                self.__file_descriptor = os_open(self.__filename, flags=self.__flags, mode=0o444)
+                break
+            except FileNotFoundError:
+                if k == 0:
+                    secure_file_create(self.__filename)
+        else:
+            self.close()
+            raise OSError(f'Issue encountered when securely creating file "{self.__filename}".')
 
         if not self.__no_follow:
             if symlink_testing(self.__file_descriptor, self.__filename):
@@ -112,10 +143,6 @@ class SecureOpen:
             self.__file = None
 
         if self.__file_descriptor is not None:
-            try:
-                os_close(self.__file_descriptor)
-            except OSError:
-                pass
-
+            close_file_descriptor(self.__file_descriptor)
             self.__file_descriptor = None
         return
