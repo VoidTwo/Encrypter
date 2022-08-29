@@ -21,14 +21,29 @@ if TYPE_CHECKING:
 
 
 class CharacterSets:
-    alpha: str = ''.join(map(chr, itertools_chain(
+    __alpha: str = ''.join(map(chr, itertools_chain(
         range(65, 91), range(97, 123))))
-    alpha_numeric: str = ''.join(map(chr, itertools_chain(
+    __alpha_numeric: str = ''.join(map(chr, itertools_chain(
         range(48, 58), range(65, 91), range(97, 123))))
-    alpha_numeric_symbols: str = ''.join(map(chr, range(33, 127)))
+    __alpha_numeric_symbols: str = ''.join(map(chr, range(33, 127)))
+
+    def __init__(self) -> None:
+        return
+
+    @property
+    def alpha(self) -> str:
+        return self.__alpha
+
+    @property
+    def alpha_numeric(self) -> str:
+        return self.__alpha_numeric
+
+    @property
+    def alpha_numeric_symbols(self) -> str:
+        return self.__alpha_numeric_symbols
 
 
-def secure_random_string(length: int, *, character_set: Sequence[str] = CharacterSets.alpha_numeric_symbols) -> str:
+def secure_random_string(length: int, *, character_set: Sequence[str] = CharacterSets().alpha_numeric_symbols) -> str:
     return ''.join(map(secrets_choice, itertools_repeat(character_set, length)))
 
 
