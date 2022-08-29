@@ -15,10 +15,30 @@ orjson = '3.*'  # https://github.com/ijl/orjson
 
 [tool.poetry.dev-dependencies]
 bandit = {version = '*', extras = ['toml']}
+black = '*'
 flake8 = '*'
 mypy = '*'
 pip = '*'
 setuptools = '*'
+
+# Black will not be used for formatting code in this project.
+#   It is more of a guide for finding good formatting recommendations
+#   amongst the vast heavily-opinionated formatting guides.
+[tool.black]
+line_length = 120
+target_version = ['py310']
+pyi = false
+ipynb = false
+skip_string_normalization = true  # Prefer single quotes
+skip_magic_trailing_comma = false
+diff = true
+color = true
+safe = true
+exclude = '^/(?:\.git|\.idea|\.mypy_cache|\.venv|__pycache__)'
+include = '\.py$'
+workers = 2
+quiet = false
+verbose = true
 
 [tool.mypy]
 mypy_path = '$MYPY_CONFIG_FILE_DIR'
