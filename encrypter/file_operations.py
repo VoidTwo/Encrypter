@@ -138,8 +138,10 @@ class SecureOpen:
         return False
 
     def close(self) -> None:
-        if self.__file is not None and not self.__file.closed:
-            self.__file.close()
+        if self.__file is not None:
+            if not self.__file.closed:
+                self.__file.close()
+
             self.__file = None
 
         if self.__file_descriptor is not None:
