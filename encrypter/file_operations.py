@@ -35,23 +35,23 @@ def get_secure_open_properties() -> tuple[int, bool]:
 
     try:
         from os import O_EXLOCK
+
         flags |= O_EXLOCK
-        del O_EXLOCK
     except ImportError:
         pass
 
     try:
         from os import O_NOFOLLOW
+
         flags |= O_NOFOLLOW
         no_follow = True
-        del O_NOFOLLOW
     except ImportError:
         pass
 
     try:
         from os import O_RDONLY
+
         flags |= O_RDONLY
-        del O_RDONLY
     except ImportError:
         pass
 
@@ -61,8 +61,6 @@ def get_secure_open_properties() -> tuple[int, bool]:
             O_NOINHERIT)
 
         flags |= O_BINARY | O_NOINHERIT
-        del O_BINARY
-        del O_NOINHERIT
     return flags, no_follow
 
 
