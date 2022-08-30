@@ -7,7 +7,9 @@ from .cryptography_utils import (
     secure_encrypt,
     secure_random_string)
 from .custom_types import LiteralPlatform
-from .file_operations import SecureOpen
+from .file_operations import (
+    SecureOpen,
+    SecureWriter)
 
 
 __package__ = 'encrypter'
@@ -24,4 +26,5 @@ __all__ = (
     'Platform',
     'secure_encrypt',
     'secure_random_string',
-    'SecureOpen')
+    'SecureOpen',
+    'SecureWriter')

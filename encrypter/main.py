@@ -4,7 +4,9 @@
 from typing import TYPE_CHECKING
 
 # Local imports
-from .file_operations import SecureOpen
+from .file_operations import (
+    SecureOpen,
+    SecureWriter)
 
 # Type checking
 if TYPE_CHECKING:
@@ -15,8 +17,8 @@ if TYPE_CHECKING:
 def main() -> None:
     f: BinaryIO
 
-    with SecureOpen() as f:
-        pass
+    with SecureWriter() as f:
+        f.write(b'testing')
     return
 
 

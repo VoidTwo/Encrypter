@@ -23,10 +23,20 @@ if TYPE_CHECKING:
     from typing import (
         Any,
         BinaryIO,
+        Callable,
         Optional)
 
     # Local imports
     from .custom_types import LiteralFalse
+
+# Platform specific imports
+# Standard imports
+os_fsync: Optional[Callable[[int], None]]
+
+try:
+    from os import fsync as os_fsync
+except ImportError:
+    os_fsync = None
 
 
 def get_secure_open_properties() -> tuple[int, bool]:
@@ -80,12 +90,17 @@ def close_file_descriptor(fd: int) -> None:
     return
 
 
-def secure_file_create(filename: str) -> None:
+def create_tempfile() -> str:
     fd: int
     path: str
     fd, path = tempfile_mkstemp(suffix='.tmp', prefix='.__', dir='.')
 
     close_file_descriptor(fd)
+    return path
+
+
+def secure_file_create(filename: str) -> None:
+    path: str = create_tempfile()
     os_replace(path, filename)
     return
 
@@ -145,4 +160,58 @@ class SecureOpen:
         if self.__file_descriptor is not None:
             close_file_descriptor(self.__file_descriptor)
             self.__file_descriptor = None
+        return
+
+
+class SecureWriter:
+    __slots__ = (
+        '__filename', '__temp_filename', '__temp_file')
+
+    def __init__(self, filename: str = './encrypter.db') -> None:
+        self.__filename: str = filename
+        self.__temp_filename: Optional[str] = None
+        self.__temp_file: Optional[BinaryIO] = None
+        return
+
+    def __enter__(self) -> BinaryIO:
+        if self.__temp_file is not None:
+            self.close()
+            raise AssertionError('Temporary file is already open.')
+
+        self.__temp_filename = create_tempfile()
+        self.__temp_file = open(self.__temp_filename, 'wb')
+        return self.__temp_file
+
+    def __exit__(self, *_: Any) -> LiteralFalse:
+        self.__sync()
+        self.close()
+        os_replace(self.__temp_filename, self.__filename)
+
+        self.__temp_filename = None
+        return False
+
+    def __sync(self) -> None:
+        if self.__temp_file is None:
+            raise AssertionError('Temporary file is not open.')
+
+        self.__temp_file.flush()
+
+        if os_fsync is not None:
+            e: Exception
+
+            try:
+                os_fsync(self.__temp_file.fileno())
+            except OSError:
+                self.close()
+                raise OSError('Temporary file is missing a file descriptor.')
+        return
+
+    def close(self) -> None:
+        if self.__temp_file is None:
+            return
+
+        if not self.__temp_file.closed:
+            self.__temp_file.close()
+
+        self.__temp_file = None
         return
