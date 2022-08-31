@@ -1,6 +1,6 @@
 [tool.poetry]
 name = 'Encrypter'
-version = '0.0.3-alpha'
+version = '0.0.4-alpha'
 description = 'Secure offline password vault using modern cryptographically secure hashing and encryption algorithms'
 license = 'AGPL-3.0-only'
 readme = 'README.md'
