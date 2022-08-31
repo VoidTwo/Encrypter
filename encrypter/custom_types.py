@@ -11,6 +11,7 @@ from typing import (
 
 LiteralFalse = Literal[False]
 LiteralPlatform = Literal['L', 'W', 'M', 'U']
+LiteralExceptionType = Literal['ERROR', 'WARNING', 'INFO', 'DEBUG']
 
 TypedDictEncrypterDatabaseSecret: Type = TypedDict(
     'TypedDictEncrypterDatabaseSecret', {
