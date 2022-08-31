@@ -56,3 +56,14 @@ def secure_encrypt(data: bytes, key: bytes, nonce: bytes) -> bytes:
 
     gc_collect()
     return ciphertext
+
+
+def secure_decrypt(data: bytes, key: bytes, nonce: bytes) -> bytes:
+    plaintext: bytes = AESSIV(key).decrypt(data, [nonce])
+
+    del data
+    del nonce
+    del key
+
+    gc_collect()
+    return plaintext
