@@ -197,8 +197,6 @@ class SecureWriter:
         self.__temp_file.flush()
 
         if os_fsync is not None:
-            e: Exception
-
             try:
                 os_fsync(self.__temp_file.fileno())
             except OSError:
