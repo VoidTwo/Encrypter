@@ -4,14 +4,17 @@
 from __future__ import annotations
 
 # Standard imports
-from typing import (
-    cast,
-    TYPE_CHECKING)
+from typing import TYPE_CHECKING
 
 # 3rd party imports
 from orjson import (
     dumps as orjson_dumps,
+    JSONDecodeError,
+    JSONEncodeError,
     loads as orjson_loads)
+
+# Local imports
+from .common_utils import CustomException
 
 # Type checking
 if TYPE_CHECKING:
@@ -27,7 +30,13 @@ class EncrypterDatabase:
         return
 
     def serialize(self) -> bytes:
-        return cast(bytes, orjson_dumps(self.__data))
+        serialized_data: bytes
+
+        try:
+            serialized_data = orjson_dumps(self.__data)
+        except JSONEncodeError:
+            raise CustomException('ERROR', 'Data serialization failed')
+        return serialized_data
 
     @staticmethod
     def new() -> EncrypterDatabase:
@@ -43,5 +52,10 @@ class EncrypterDatabase:
 
     @staticmethod
     def deserialize(serialized_data: bytes) -> EncrypterDatabase:
-        data: TypedDictEncrypterDatabase = orjson_loads(serialized_data)
+        data: TypedDictEncrypterDatabase
+
+        try:
+            data = orjson_loads(serialized_data)
+        except JSONDecodeError:
+            raise CustomException('ERROR', 'Data deserialization failed')
         return EncrypterDatabase(data)
