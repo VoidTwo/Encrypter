@@ -2,10 +2,16 @@
 
 # Standard imports
 from gc import collect as gc_collect
-from getpass import getpass
+from getpass import (
+    getpass,
+    GetPassWarning)
+from sys import (
+    exit as sys_exit,
+    stderr)
 from typing import TYPE_CHECKING
 
 # Local imports
+from .common_utils import CustomException
 from .cryptography_utils import (
     secure_decrypt,
     secure_encrypt,
@@ -28,7 +34,14 @@ def main() -> None:
     with SecureOpen() as f:
         encrypted_data = f.read()
 
-    nonce: bytes = getpass('Master Password: ').encode('UTF-8')
+    nonce: bytes
+
+    try:
+        nonce = getpass('Master Password: ').encode('UTF-8')
+    except GetPassWarning:
+        raise CustomException('ERROR', 'Secure password input unavailable')
+    except UnicodeEncodeError:
+        raise CustomException('ERROR', 'Password must be UTF-8 encodable')
 
     key: bytes
     encrypter_database: EncrypterDatabase
@@ -51,5 +64,12 @@ def main() -> None:
 
 
 if __name__ == '__main__':
-    main()
+    e: CustomException
+
+    try:
+        main()
+    except CustomException as e:
+        print(f'-- EXCEPTION --\n{repr(e)}', file=stderr)
+
     gc_collect()
+    sys_exit(0)
