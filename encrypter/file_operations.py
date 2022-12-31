@@ -24,6 +24,7 @@ if TYPE_CHECKING:
         Any,
         BinaryIO,
         Callable,
+        cast,
         Optional)
 
     # Local imports
@@ -185,7 +186,7 @@ class SecureWriter:
     def __exit__(self, *_: Any) -> LiteralFalse:
         self.__sync()
         self.close()
-        os_replace(self.__temp_filename, self.__filename)
+        os_replace(cast(str, self.__temp_filename), self.__filename)
 
         self.__temp_filename = None
         return False
