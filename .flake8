@@ -23,6 +23,7 @@ format = default
 
 count = True
 statistics = True
+show_source = False
 
 hang_closing = True
 

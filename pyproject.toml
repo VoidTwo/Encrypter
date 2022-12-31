@@ -9,8 +9,8 @@ repository = 'https://github.com/VoidTwo/Encrypter'
 packages = [{include = 'encrypter'}]
 
 [tool.poetry.dependencies]
-python = '3.10.*'
-cryptography = '37.*'  # https://github.com/pyca/cryptography
+python = '3.11.*'
+cryptography = '38.*'  # https://github.com/pyca/cryptography
 orjson = '3.*'  # https://github.com/ijl/orjson
 
 [tool.poetry.dev-dependencies]
@@ -26,7 +26,7 @@ setuptools = '*'
 #   amongst the vast heavily-opinionated formatting guides.
 [tool.black]
 line_length = 120
-target_version = ['py310']
+target_version = ['py311']
 pyi = false
 ipynb = false
 skip_string_normalization = true  # Prefer single quotes
@@ -55,7 +55,7 @@ files = [
     'encrypter/*.py'
 ]
 
-python_version = '3.10'
+python_version = '3.11'
 
 follow_imports = 'skip'
 follow_imports_for_stubs = false
@@ -91,7 +91,6 @@ warn_return_any = true
 warn_unreachable = true
 
 # Suppressing errors
-show_none_errors = false
 ignore_errors = false
 
 # Miscellaneous strictness flags
@@ -99,6 +98,7 @@ allow_untyped_globals = false
 allow_redefinition = false
 local_partial_types = true
 implicit_reexport = false
+strict_concatenate = false
 strict_equality = false
 strict = false
 
